@@ -22,8 +22,8 @@ jobs:
         with:
           ref: dev
       - uses: actions/setup-node@v1
-      - run: npm install
-
+      - run: npm uninstall fsevents
+             npm install
       - run: |
           touch .env
           echo DB_HOST = "$DB_HOST" >> .env
