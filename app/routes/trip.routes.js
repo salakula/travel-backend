@@ -28,5 +28,5 @@ module.exports = (app) => {
   // Delete all Trips
   router.delete("/trips/", [authenticateRoute], Trip.deleteAll);
 
-  app.use("/recipeapi", router);
+  app.use("/travelpi", router);
 };
