@@ -21,5 +21,5 @@ module.exports = (app) => {
   // Create a new Place
   router.delete("/places/", [authenticateRoute], Place.deleteAll);
 
-  app.use("/recipeapi", router);
+  app.use("/travelapi", router);
 };
