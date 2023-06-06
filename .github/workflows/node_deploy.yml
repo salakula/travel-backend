@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - dev
+      - main
 
 jobs:
   aws-deploy:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: dev
+          ref: main
       - uses: actions/setup-node@v1
       - run: npm uninstall fsevents
              npm install
