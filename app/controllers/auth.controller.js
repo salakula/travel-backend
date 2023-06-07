@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
     });
 
     let expireTime = new Date();
-    expireTime.setDate(expireTime.getDate() + 1);
+    expireTime.setDate(expireTime.getDate() + 100);
 
     const session = {
       email: user.email,
@@ -30,6 +30,7 @@ exports.login = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         id: user.id,
+        role: user.role,
         token: token,
       };
       res.send(userInfo);
