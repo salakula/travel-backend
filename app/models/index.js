@@ -61,6 +61,18 @@ db.day.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
+// foreign key for day and hotel
+db.hotel.hasMany(
+  db.day,
+  { as: "day" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
+db.day.belongsTo(
+  db.hotel,
+  { as: "hotel" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
+
 // foreign keys for tripPlace
 db.day.hasMany(
   db.tripPlace,
@@ -93,11 +105,5 @@ db.tripPlace.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
-// foreign key for hotel
-db.trip.hasMany(
-  db.hotel,
-  { as: "hotel" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
 
 module.exports = db;

@@ -20,6 +20,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
     });
     return Hotel;
   };
