@@ -11,7 +11,12 @@ module.exports = (sequelize, Sequelize) => {
       link: {
         type: Sequelize.TEXT,
         allowNull: false,
-      }
+      },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+      },
     });
     return Place;
   };

@@ -2,6 +2,7 @@ const db = require("../models");
 const Day = db.day;
 const TripPlace = db.tripPlace;
 const Place = db.place;
+const Hotel = db.hotel;
 const Op = db.Sequelize.Op;
 // Create and Save a new Day
 exports.create = (req, res) => {
@@ -18,22 +19,6 @@ exports.create = (req, res) => {
     const error = new Error("description cannot be empty for day creation!");
     error.statusCode = 400;
     throw error;
-  } else if (req.body.hotelName === undefined) {
-    const error = new Error("hotel_name cannot be empty for  day!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.hotelAddress === undefined) {
-    const error = new Error("hotel_address cannot be empty for day!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.hotelPhone === undefined) {
-    const error = new Error("hotel_phone cannot be empty for day!");
-    error.statusCode = 400;
-    throw error;
-  } else if (req.body.hotelLink === undefined) {
-    const error = new Error("hotel_link cannot be empty day!");
-    error.statusCode = 400;
-    throw error;
   } else if (req.body.tripId === undefined) {
     const error = new Error("Trip ID cannot be empty for day!");
     error.statusCode = 400;
@@ -45,12 +30,10 @@ exports.create = (req, res) => {
     date: req.body.date,
     weekday: req.body.weekday,
     description: req.body.description,
-    hotelName: req.body.hotelName,
-    hotelAddress: req.body.hotelAddress,
-    hotelPhone: req.body.hotelPhone,
-    hotelLink: req.body.hotelLink,
+    hotelId: req.body.hotel,
     tripId: req.body.tripId,
   };
+
   // Save Day in the database
   Day.create(day)
     .then((data) => {
@@ -124,6 +107,10 @@ exports.findAllForTripWithPlaces = (req, res) => {
           },
         ],
       },
+      {
+        model: Hotel,
+        as: "hotel",
+      }
     ],
     order: [["date", "ASC"]],
   })
@@ -161,6 +148,7 @@ exports.findOne = (req, res) => {
 // Update a Day by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
+  req.body.hotelId = req.body.hotel;
   Day.update(req.body, {
     where: { id: id },
   })
