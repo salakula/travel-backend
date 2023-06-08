@@ -33,6 +33,7 @@ require("./app/routes/trip.routes")(app);
 require("./app/routes/day.routes")(app);
 require("./app/routes/tripPlace.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/hotel.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3201;
