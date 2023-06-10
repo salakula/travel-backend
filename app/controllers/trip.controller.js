@@ -3,9 +3,10 @@ const Trip = db.trip;
 const Day = db.day;
 const TripPlace = db.tripPlace;
 const Place = db.place;
+const User = db.user;
 const Op = db.Sequelize.Op;
 // Create and Save a new Trip
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 
   console.log(req.body.name);
   console.log(req.body.description);
@@ -41,11 +42,14 @@ exports.create = (req, res) => {
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    userId: req.body.userId,
   };
   // Save Trip in the database
   Trip.create(trip)
     .then((data) => {
+      User.findByPk(req.body.userId)
+        .then((user) => {
+          data.addUser(user);
+        })
       res.send(data);
     })
     .catch((err) => {
@@ -60,8 +64,11 @@ exports.create = (req, res) => {
 exports.findAllForUser = (req, res) => {
   const userId = req.params.userId;
   Trip.findAll({
-    where: { userId: userId },
     include: [
+      {
+        model: User,
+        where: { id: userId }
+      },
       {
         model: Day,
         as: "day",
@@ -107,7 +114,11 @@ exports.findAllForUser = (req, res) => {
 // Find all Published Trips
 exports.findAllPublished = (req, res) => {
   Trip.findAll({
+
     include: [
+      {
+        model: User,
+      },
       {
         model: Day,
         as: "day",
@@ -253,4 +264,18 @@ exports.deleteAll = (req, res) => {
           err.message || "Some error occurred while removing all trips.",
       });
     });
+};
+
+
+// Add user to trip
+exports.addUser = async (req, res) => {
+  const trip =await Trip.findByPk(req.params.id)
+  const user =await User.findByPk(req.params.userId)
+  if (trip && user) {
+    trip.addUser(user)
+    res.send({
+      message: "User was added to trip successfully.",
+    });
+  }
+
 };
