@@ -24,6 +24,7 @@ db.tripPlace = require("./tripPlace.model.js")(
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.hotel = require("./hotel.model.js")(sequelize, Sequelize);
+db.userTrip = require("./userTrip.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -38,15 +39,14 @@ db.session.belongsTo(
 );
 
 // foreign key for trip
-db.user.hasMany(
+db.user.belongsToMany(
   db.trip,
-  { as: "trip" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+  { through: "userTrip" },
 );
-db.trip.belongsTo(
+
+db.trip.belongsToMany(
   db.user,
-  { as: "user" },
-  { foreignKey: { allowNull: true }, onDelete: "CASCADE" }
+ { through: "userTrip" },
 );
 
 // foreign key for day
