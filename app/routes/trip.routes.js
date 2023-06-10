@@ -28,5 +28,8 @@ module.exports = (app) => {
   // Delete all Trips
   router.delete("/trips/", [authenticateRoute], Trip.deleteAll);
 
+  // add user to trip
+  router.post("/trips/:id/user/:userId", [authenticateRoute], Trip.addUser);
+
   app.use("/travelapi", router);
 };
